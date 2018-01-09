@@ -35,7 +35,7 @@ static void freeCacheEntry(cacheEntryS* entry)
 }
 
 /*LRUCreate */
-int LRUCacheCreat(int capacity, void **lruCache)
+int LRUCacheCreate(int capacity, void **lruCache)
 {
 	LRUCacheS* cache = NULL;
 	if(NULL == (cache=malloc(sizeof(*cache)))){
@@ -104,7 +104,7 @@ static cacheEntryS* insertToListHead(LRUCacheS* cache, cacheEntryS* entry)
 		removeFromList(cache, cache->lruListTail);
 	}
 
-	if(cache->lruListSize == 0){
+	if(cache->lruListHead == NULL && cache->lruListTail==NULL){
 		cache->lruListHead = cache->lruListTail = entry;
 	}else{
 		entry->lruListNext = cache->lruListHead;
@@ -128,7 +128,7 @@ static void freeList(LRUCacheS* cache)
 	cache->lruListSize = 0;
 }
 
-static void updataLRUList(LRUCacheS* cache, cacheEntryS* entry)
+static void updateLRUList(LRUCacheS* cache, cacheEntryS* entry)
 {
 	removeFromList(cache, entry);
 	insertToListHead(cache, entry);
@@ -206,7 +206,7 @@ int LRUCacheSet(void* lruCache, char key, char data)
 		cacheEntryS* removeEntry = insertToListHead(cache,entry);
 
 		if(NULL != removeEntry){
-			removeFromHashMap(cache,removeEntry);
+			removeEntryFromHashMap(cache,removeEntry);
 			freeCacheEntry(removeEntry);
 		}
 		insertEntryToHashMap(cache, entry);
@@ -234,12 +234,12 @@ void LRUCachePrint(void* lruCache)
 	LRUCacheS* cache = (LRUCacheS*)lruCache;
 	if(cache == NULL || cache->lruListSize == 0) return;
 	
-	fprint(stdout,"\n>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-	fprint(stdout,"cache   (key   data):\n");
+	fprintf(stdout,"\n>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+	fprintf(stdout,"cache   (key   data):\n");
 	cacheEntryS* entry = cache->lruListHead;
 	while(entry){
-		fprint(stdout,"(%c  %c) ",entry->key, entry->data);
+		fprintf(stdout,"(%c  %c) ",entry->key, entry->data);
 		entry = entry->lruListNext;
 	}
-	fprint(stdout,"\n<<<<<<<<<<<<<<<<<<<<<<<<\n");
+	fprintf(stdout,"\n<<<<<<<<<<<<<<<<<<<<<<<<\n");
 }

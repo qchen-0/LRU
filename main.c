@@ -10,37 +10,37 @@
 /*error handle macro*/
 #define HANDLE_ERROR(msg) \
 		do{\
-			fprint(stderr, "%s fail.\n", msg); \
+			fprintf(stderr, "%s fail.\n", msg); \
 			exit(-1); \
 		} while(0)
 
 #define LRUCACHE_PUTDATA(cache, data) \
 		do{\
 			if(0 != LRUCacheSet(cache, data, data)) \
-				fprint(stderr, "put(%c,%c) to cache fail.\n", data, data);\
+				fprintf(stderr, "put(%c,%c) to cache fail.\n", data, data);\
 			else \
-				fprint(stdout, "put(%c,%c) to cache sucess.\n",data, data);\
+				fprintf(stdout,"put(%c,%c) to cache sucess.\n",data, data);\
 		}while(0)
 
 #define LRUCACHE_GETDATA(cache, key) \
 		do{\
 			char data = LRUCacheGet(cache, key);\
 			if('\0' == data) \
-				fprint(stderr, "get(Key:%c) from cache fail.\n", key);\
+				fprintf(stderr, "get(Key:%c) from cache fail.\n", key);\
 			else \
-				fprint(stdout, "get(Key:%c) from cache sucess.\n", key);\
+				fprintf(stdout, "get(Key:%c) from cache sucess.\n", key);\
 		}while(0)
 
 /*	test 1*/
 void testcase1(void)
 {
-	fprint(stdout,"====================\n");
-	fprint(stdout,"In testcase1........\n");
-	fprint(stdout,"====================\n");
+	fprintf(stdout,"====================\n");
+	fprintf(stdout,"In testcase1........\n");
+	fprintf(stdout,"====================\n");
 
 	void* lruCache;
-	if(0 != LRUCacheCreat(5, &lruCache))
-		HANDLE_ERROR("LRUCacheCreat");
+	if(0 != LRUCacheCreate(5, &lruCache))
+		HANDLE_ERROR("LRUCacheCreate");
 	
 	/*ABC!*/
 	LRUCACHE_PUTDATA(lruCache, 'A');
@@ -72,20 +72,20 @@ void testcase1(void)
 	if(0 != LRUCacheDestory(lruCache))
 		HANDLE_ERROR("LRUCacheDestory");
 	
-	fprint(stdout, "\n\ntestcase1 finishede \n");
-	fprint(stdout, "========================\n\n");
+	fprintf(stdout, "\n\ntestcase1 finishede \n");
+	fprintf(stdout, "========================\n\n");
 }
 
 /*testcase2*/
 void testcase2(void)
 {
-	fprint(stdout,"====================\n");
-	fprint(stdout,"In testcase2........\n");
-	fprint(stdout,"====================\n");
+	fprintf(stdout,"====================\n");
+	fprintf(stdout,"In testcase2........\n");
+	fprintf(stdout,"====================\n");
 
 	void* lruCache;
-	if(0 != LRUCacheCreat(3, &lruCache))
-		HANDLE_ERROR("LRUCacheCreat");
+	if(0 != LRUCacheCreate(3, &lruCache))
+		HANDLE_ERROR("LRUCacheCreate");
 
 	/*wxwyz!*/
 	LRUCACHE_PUTDATA(lruCache, 'W');
@@ -138,16 +138,16 @@ void testcase2(void)
 
 	if(0 != LRUCacheDestory(lruCache))
 		HANDLE_ERROR("LRUCacheDestory");
-	fprint(stdout, "\n\ntestcase2 finished.....\n");
-	fprint(stdout, "==============================\n\n");
+	fprintf(stdout, "\n\ntestcase2 finished.....\n");
+	fprintf(stdout, "==============================\n\n");
 }
 
 /*testcase3*/
 void testcase3(void)
 {
-	fprint(stdout,"====================\n");
-	fprint(stdout,"In testcase1........\n");
-	fprint(stdout,"====================\n");
+	fprintf(stdout,"====================\n");
+	fprintf(stdout,"In testcase1........\n");
+	fprintf(stdout,"====================\n");
 	
 	void* lruCache;
 	if(0 != LRUCacheCreate(5, &lruCache))
@@ -174,8 +174,8 @@ void testcase3(void)
 	if(0 != LRUCacheDestory(lruCache))
 		HANDLE_ERROR("LRUCacheDestory");
 	
-	fprint(stdout, "\n\ntestcase3 finished....\n");
-	fprint(stdout, "===============================\n\n");
+	fprintf(stdout, "\n\ntestcase3 finished....\n");
+	fprintf(stdout, "===============================\n\n");
 }
 
 int main()
